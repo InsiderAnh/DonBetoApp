@@ -16,6 +16,7 @@ public class RegisterButtonListener implements ActionListener {
 		this.register = register;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
     public void actionPerformed(ActionEvent event) {
 		String user = register.getTxtUsuario().getText();
