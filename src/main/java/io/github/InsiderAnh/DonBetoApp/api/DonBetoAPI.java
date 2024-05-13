@@ -47,6 +47,12 @@ public class DonBetoAPI {
 		return completableFuture;
 	}
 	
+	public CompletableFuture<Document> getProducts(String category) {
+		CompletableFuture<Document> completableFuture = new CompletableFuture<>();
+		getBetoClient().getProducts(category).then(document -> completableFuture.complete(document));
+		return completableFuture;
+	}
+	
 	public BetoClient getBetoClient() {
 		return MainApp.getInstance().getDbManager().getDbClient().getDataFetcher().getPlayerClient();
 	}

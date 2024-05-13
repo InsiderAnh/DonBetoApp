@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import io.github.InsiderAnh.DonBetoApp.commands.CommandExecutor;
 import io.github.InsiderAnh.DonBetoApp.managers.DBManager;
 import io.github.InsiderAnh.DonBetoApp.panels.productos.AddProductoPanel;
+import io.github.InsiderAnh.DonBetoApp.panels.productos.UpdateProductoPanel;
 import io.github.InsiderAnh.DonBetoApp.settings.ConfigLoader;
 import io.github.InsiderAnh.DonBetoApp.utils.ConsoleCommandCompleter;
 import io.github.InsiderAnh.DonBetoApp.utils.log.BungeeLogger;
@@ -98,6 +99,11 @@ public class MainApp extends JFrame {
     public void showAddProductoPanel() {
     	AddProductoPanel addProductoPanel = new AddProductoPanel();
         setCurrentPanel(addProductoPanel.getJPanel(), addProductoPanel.getBoundX(), addProductoPanel.getBoundY(), addProductoPanel.getBoundWidth(), addProductoPanel.getBoundHeight());
+    }
+    
+    public void showUpdateProductoPanel() {
+    	UpdateProductoPanel updateProductoPanel = new UpdateProductoPanel();
+        setCurrentPanel(updateProductoPanel.getJPanel(), updateProductoPanel.getBoundX(), updateProductoPanel.getBoundY(), updateProductoPanel.getBoundWidth(), updateProductoPanel.getBoundHeight());
     }
     
     public void setCurrentPanel(JPanel panel, int x, int y, int width, int height) {

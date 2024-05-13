@@ -2,8 +2,9 @@ package io.github.InsiderAnh.DonBetoApp.panels.productos;
 
 import javax.swing.JPanel;
 
-import io.github.InsiderAnh.DonBetoApp.listeners.AddProductoListener;
+import io.github.InsiderAnh.DonBetoApp.api.DonBetoAPI;
 import io.github.InsiderAnh.DonBetoApp.listeners.ButtonListener;
+import io.github.InsiderAnh.DonBetoApp.listeners.UpdateProductoListener;
 import io.github.InsiderAnh.DonBetoApp.panels.ImagePanel;
 import lombok.Getter;
 
@@ -12,26 +13,29 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.LinkedList;
+
 import javax.swing.JTextField;
+
+import org.bson.Document;
+
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 @Getter
-public class AddProductoPanel extends JPanel {
+public class UpdateProductoPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private int boundX, boundY, boundWidth, boundHeight;
-	private JTextField txtNombre;
 	private JTextField txtDescription;
 	private JTextField txtPrecio;
 	private JTextField txtStock;
-	private JTextField txtId;
-	private JComboBox<String> comboCategory;
+	private JComboBox<String> comboCategory, comboProducts;
 
-	public AddProductoPanel() {		
+	public UpdateProductoPanel() {		
 		this.boundX = 200;
 		this.boundY = 200;
 		this.boundWidth = 550;
@@ -119,42 +123,31 @@ public class AddProductoPanel extends JPanel {
 	    lblStock.setBounds(116, 232, 88, 14);
 	    contentPane.add(lblStock);
 	    
-	    txtNombre = new JTextField();
-	    txtNombre.setBounds(229, 97, 170, 20);
-	    contentPane.add(txtNombre);
-	    txtNombre.setColumns(10);
-	    
 	    txtDescription = new JTextField();
 	    txtDescription.setColumns(10);
 	    txtDescription.setBounds(229, 129, 170, 20);
+	    txtDescription.setEnabled(false);
 	    contentPane.add(txtDescription);
 	    
 	    txtPrecio = new JTextField();
 	    txtPrecio.setColumns(10);
 	    txtPrecio.setBounds(229, 195, 86, 20);
+	    txtPrecio.setEnabled(false);
 	    contentPane.add(txtPrecio);
 	    
 	    txtStock = new JTextField();
 	    txtStock.setColumns(10);
 	    txtStock.setBounds(229, 231, 86, 20);
+	    txtStock.setEnabled(false);
 	    contentPane.add(txtStock);
 	    
-	    JButton btnAgregar = new JButton("Agregar");
-	    btnAgregar.setName("AddProducto");
-	    btnAgregar.setBounds(226, 276, 89, 23);
-	    btnAgregar.addActionListener(new AddProductoListener(this));
-	    contentPane.add(btnAgregar);
+	    UpdateProductoListener listener = new UpdateProductoListener(this);
 	    
-	    JLabel lblId = new JLabel("ID:");
-	    lblId.setForeground(Color.WHITE);
-	    lblId.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
-	    lblId.setBounds(116, 68, 69, 14);
-	    contentPane.add(lblId);
-	    
-	    txtId = new JTextField();
-	    txtId.setColumns(10);
-	    txtId.setBounds(229, 67, 170, 20);
-	    contentPane.add(txtId);
+	    JButton btnUpdate = new JButton("Actualizar");
+	    btnUpdate.setName("UpdateProducto");
+	    btnUpdate.setBounds(210, 275, 119, 23);
+	    btnUpdate.addActionListener(listener);
+	    contentPane.add(btnUpdate);
 	    
 	    JLabel lblCategoria = new JLabel("Categoria:");
 	    lblCategoria.setForeground(Color.WHITE);
@@ -165,7 +158,31 @@ public class AddProductoPanel extends JPanel {
 	    comboCategory = new JComboBox<>();
 	    comboCategory.setModel(new DefaultComboBoxModel<>(new String[] {"Cerveza", "Gaseosa", "Ron", "Pisco", "Coctel", "Vodka", "Viskys", "Vinos"}));
 	    comboCategory.setBounds(229, 160, 86, 22);
+	    comboCategory.setEnabled(false);
 	    contentPane.add(comboCategory);
+	    
+	    JLabel lblActualizarProducto = new JLabel("Actualizar Producto");
+	    lblActualizarProducto.setForeground(Color.WHITE);
+	    lblActualizarProducto.setFont(new Font("Trebuchet MS", Font.BOLD, 17));
+	    lblActualizarProducto.setBounds(155, 50, 190, 14);
+	    contentPane.add(lblActualizarProducto);
+	    
+	    comboProducts = new JComboBox<String>();
+	    comboProducts.addActionListener(listener);
+	    comboProducts.setEnabled(false);
+	    comboProducts.setBounds(229, 98, 170, 22);
+	    DonBetoAPI.getProducts(null).thenAccept(document -> {
+	    	Document response = document.get("data", Document.class);
+	    	LinkedList<String> list = new LinkedList<>();
+	    	list.add("Seleccionar producto");
+	    	for (String key : response.keySet()) {
+	    		Document doc = response.get(key, Document.class);
+	    		list.add(doc.getString("name"));
+	    	}
+		    comboProducts.setEnabled(true);
+		    comboProducts.setModel(new DefaultComboBoxModel<>(list.toArray(new String[0])));
+	    });
+	    contentPane.add(comboProducts);
 	}
 	
 	public JPanel getJPanel() {

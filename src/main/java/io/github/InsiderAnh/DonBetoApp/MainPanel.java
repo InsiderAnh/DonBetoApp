@@ -39,6 +39,11 @@ public class MainPanel extends JPanel {
 	    mbtnAddProducto.addActionListener(buttonListener);
 	    jmProductos.add(mbtnAddProducto);
 	    
+	    JMenuItem mbtnUpdateProducto = new JMenuItem("Actualizar");
+	    mbtnUpdateProducto.setName("UpdateProducto");
+	    mbtnUpdateProducto.addActionListener(buttonListener);
+	    jmProductos.add(mbtnUpdateProducto);
+	    
 	    JMenuItem mbtnDelProducto = new JMenuItem("Remover");
 	    mbtnDelProducto.setName("DelProducto");
 	    mbtnDelProducto.addActionListener(buttonListener);

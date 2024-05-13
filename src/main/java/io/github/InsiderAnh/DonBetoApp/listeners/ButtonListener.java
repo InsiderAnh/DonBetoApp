@@ -17,6 +17,9 @@ public class ButtonListener implements ActionListener {
 				case "AddProducto":
 					MainApp.getInstance().showAddProductoPanel();
 					break;
+				case "UpdateProducto":
+					MainApp.getInstance().showUpdateProductoPanel();
+					break;
 				case "DelProduto":
 					
 					break;
